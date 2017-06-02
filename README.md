@@ -12,7 +12,7 @@ You are allowed to install OpenOffice where you want. But remember to modify com
 in the project dir: src/main/resources/application.properties file.
 
 ## Information
-The spring boot application configured to the port 8050 (src/main/resources/application.properties)
+The spring boot application is configured to the port 8050 (src/main/resources/application.properties)
 
 #### Production mode
 Build project with maven and deploy war archive to Tomcat server.
