@@ -1,5 +1,3 @@
-#### Before you start
-
 ## Dependencies
 
 1) Library: jodconverter-2.2.2.jar
@@ -22,33 +20,43 @@ Run spring-boot:run maven plugin.
 
 #### Available endpoints
 http://localhost:8050/                  (GET)  -- to check is the application running.
+
     Example: http://localhost:8050/
 
 http://localhost:8050/convertBlobToPdf  (POST) -- gets blob (EXCEL file) converts it to the PDF and returns attachement.
+
     Example: http://localhost:8050/convertBlobToPdf
         params: file=Excel.xlsx (attachement)
                 mimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
                 filePath=C:\\Temp\\Excel.xlsx
 
 http://localhost:8050/convertExcelToPdf (POST) -- gets fileName, mimeType, filePath, converts it to the PDF and saves PDF.
+
     Example: http://localhost:8050/convertExcelToPdf
         params: fileName=Excel.xlsx
                 mimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
                 filePath=C:\\Temp\\Excel.xlsx
+
     The PDF file will be saved there C:\\Temp\\Excel.pdf
 
-http://localhost:8050/convertExcelToPdf (POST) -- gets json body with needed data to convert Excel to PDF and saves PDF.
+http://localhost:8050/convertExcelToPdf (POST) -- gets JSON with needed data to convert Excel to PDF and saves PDF.
+
     Example: http://localhost:8050/convertExcelToPdf
         {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":"C:\\FILES_DIR\\"}
+
     The PDF file will be saved there C:\\Temp\\Excel.pdf
 
 http://localhost:8050/processExcelFitToOnePage (POST) -- gets JSON, modifies excel file.
+
     Example: http://localhost:8050/processExcelFitToOnePage
             {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":"C:\\FILES_DIR\\"}
+
     The modified file will be saved there C:\\FILES_DIR\\excel.xlsx
 
 http://localhost:8050/processExcelAddLogo (POST) -- gets JSON, modifies excel file by adding image in the cell.
+
     Example: http://localhost:8050/processExcelAddLogo
          body: {"excelFilePath":"C:\\FILES_DIR\\excel.xlsx","logoPath":"C:\\LOGO3EXCEL\\logo.png","logoRow":"1","logoCell":"8"}';
+
     The modified file will be saved there C:\\FILES_DIR\\excel.xlsx
     It will insert logo image in the whole excel cell (I2).
