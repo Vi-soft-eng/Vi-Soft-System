@@ -86,6 +86,7 @@ public class JodConverter {
         openOfficeUtil.runOpenOffice();
 
         try {
+            LOG.info("Conversion started!");
             File inputFile = input;
             String destFileName = outputFileName;
             // Connect to an OpenOffice.org instance running on port 8100
@@ -97,6 +98,7 @@ public class JodConverter {
             converter.convert(inputFile, outputFile);
             // close the connection
             connection.disconnect();
+            LOG.info("Conversion finished successfully!");
         }
         catch (Exception e) {
             LOG.error("Error: " + e.getMessage(), e);

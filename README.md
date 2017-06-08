@@ -1,10 +1,16 @@
 ## Dependencies
 
+mvn install:install-file -Dfile=ojdbc7.jar  -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
+
 1) Library: jodconverter-2.2.2.jar
 You can find it in the project dir: lib/jodconverter-2.2.2.jar
 The jar has to be copied to the local maven repository ..\.m2\repository\com\artofsolving\jodconverter\2.2.2\
 
-2) OpenOfficePortable must be located there: C:\\OpenOfficePortable\\OpenOfficePortable.exe
+2) Library: ojdbc6-11.2.0.jar
+You can find it in the project dir: lib/ojdbc6-11.2.0.jar
+The jar has to be copied to the local maven repository ..\.m2\repository\com\oracle\ojdbc6\11.2.0\ojdbc6-11.2.0.jar
+
+3) OpenOfficePortable must be located there: C:\\OpenOfficePortable\\OpenOfficePortable.exe
 You are allowed to install OpenOffice where you want. But remember to modify command
 (property: "open.office.run.headless.mode.command") to run OpenOfficePortable.exe
 in the project dir: src/main/resources/application.properties file.

@@ -49,33 +49,6 @@ public class ExcelProcessor {
         return this.processFitToOnePage(file);
     }
 
-    public byte [] processFileAddLogo(String fileName, byte [] bytes) {
-
-        File outputFile = null;
-        try {
-            outputFile = File.createTempFile("document", "." + FilenameUtils.getExtension(fileName));
-            FileOutputStream outputFileStream = null;
-            try {
-                outputFileStream = new FileOutputStream(outputFile);
-                IOUtils.copy(new BufferedInputStream(new ByteArrayInputStream(bytes)), outputFileStream);
-            } finally {
-                IOUtils.closeQuietly(outputFileStream);
-            }
-//            return this.processAddLogo(outputFile);
-        } catch (IOException ex) {
-            LOG.error("Error: can not create file from bytes: " + ex.getMessage());
-        } finally {
-            if(outputFile != null) {
-                outputFile.delete();
-            }
-        }
-        return bytes;
-    }
-
-    public byte [] processFileAddLogo(File file, Integer logoRow, Integer logoCell, String logoPath) {
-        return this.processAddLogo(file, logoRow, logoCell, logoPath);
-    }
-
     private byte [] processFitToOnePage(File file) {
         File outputFile = null;
         try {
@@ -119,9 +92,36 @@ public class ExcelProcessor {
         firstSheet.setFitToPage(true);
         PrintSetup printSetup = firstSheet.getPrintSetup();
         printSetup.setFitWidth((short) 1);
-        printSetup.setFitHeight((short) 0);
+        printSetup.setFitHeight((short) 1);
 
         return wb;
+    }
+
+    public byte [] processFileAddLogo(String fileName, byte [] bytes) {
+
+        File outputFile = null;
+        try {
+            outputFile = File.createTempFile("document", "." + FilenameUtils.getExtension(fileName));
+            FileOutputStream outputFileStream = null;
+            try {
+                outputFileStream = new FileOutputStream(outputFile);
+                IOUtils.copy(new BufferedInputStream(new ByteArrayInputStream(bytes)), outputFileStream);
+            } finally {
+                IOUtils.closeQuietly(outputFileStream);
+            }
+//            return this.processAddLogo(outputFile);
+        } catch (IOException ex) {
+            LOG.error("Error: can not create file from bytes: " + ex.getMessage());
+        } finally {
+            if(outputFile != null) {
+                outputFile.delete();
+            }
+        }
+        return bytes;
+    }
+
+    public byte [] processFileAddLogo(File file, Integer logoRow, Integer logoCell, String logoPath) {
+        return this.processAddLogo(file, logoRow, logoCell, logoPath);
     }
 
     private byte [] processAddLogo(File file, Integer logoRow, Integer logoCell, String logoPath) {
@@ -183,4 +183,82 @@ public class ExcelProcessor {
         //picture.resize(width, height);
         return wb;
     }
+
+    public byte [] processFileChangeDirectionRightToLeft(String fileName, byte [] bytes) {
+
+        File outputFile = null;
+        try {
+            outputFile = File.createTempFile("document", "." + FilenameUtils.getExtension(fileName));
+            FileOutputStream outputFileStream = null;
+            try {
+                outputFileStream = new FileOutputStream(outputFile);
+                IOUtils.copy(new BufferedInputStream(new ByteArrayInputStream(bytes)), outputFileStream);
+            } finally {
+                IOUtils.closeQuietly(outputFileStream);
+            }
+            return this.processChangeDirectionRightToLeft(outputFile);
+        } catch (IOException ex) {
+            LOG.error("Error: can not create file from bytes: " + ex.getMessage());
+        } finally {
+            if(outputFile != null) {
+                outputFile.delete();
+            }
+        }
+        return bytes;
+    }
+
+    public byte [] processFileChangeDirectionRightToLeft(File file) {
+        return this.processChangeDirectionRightToLeft(file);
+    }
+
+    private byte [] processChangeDirectionRightToLeft(File file) {
+        File outputFile = null;
+        try {
+            outputFile = File.createTempFile("document", "." + FilenameUtils.getExtension(file.getCanonicalPath()));
+            FileOutputStream outputFileStream = null;
+            try (InputStream inputStream = new FileInputStream(file)){
+                outputFileStream = new FileOutputStream(outputFile);
+                IOUtils.copy(inputStream, outputFileStream);
+            } finally {
+                IOUtils.closeQuietly(outputFileStream);
+            }
+            try {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // process
+                Workbook workbook = excelReader.readExcelFile(outputFile);
+                workbook = changeDirectionRightToLeft(workbook);
+                try {
+                    workbook.write(outputStream);
+                } finally {
+                    outputStream.close();
+                }
+                excelWriter.writeToFile(workbook, file);
+
+                return outputStream.toByteArray();
+            } catch (IOException ex) {
+                throw new IOException();
+            } catch (Exception ex) {
+                throw new IOException();
+            }
+        } catch (IOException ex) {
+            LOG.error("Error: can not modify file: " + ex.getMessage());
+        } finally {
+            if(outputFile != null) {
+                outputFile.delete();
+            }
+        }
+        return null;
+    }
+
+    private Workbook changeDirectionRightToLeft(final Workbook workbook) {
+        XSSFWorkbook wb = (XSSFWorkbook) workbook;
+        XSSFSheet firstSheet;
+        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+            firstSheet = wb.getSheetAt(i);
+            firstSheet.getCTWorksheet().getSheetViews().getSheetViewArray(0).setRightToLeft(true);
+        }
+
+        return wb;
+    }
+
 }

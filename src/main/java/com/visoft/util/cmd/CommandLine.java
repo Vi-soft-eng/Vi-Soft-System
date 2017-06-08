@@ -23,10 +23,11 @@ public class CommandLine {
         } catch (InterruptedException ex) {
             throw new RuntimeException("Could not execute: " + command, ex);
         } catch (IOException e) {
-            throw new RuntimeException("Could not convert: " + command, e);
+            throw new RuntimeException("Could not execute: " + command, e);
         }
         if (status != 0) {
-            throw new RuntimeException("Conversion failed with status code: " + status + ". Command executed: " + command + " and result: " + result);
+            throw new RuntimeException("Execution failed with status code: " + status + ". Command executed: " + command + " and result: " + result);
         }
+        LOG.info("The CMD command: " + command + " was terminated successfully.");
     }
 }

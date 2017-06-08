@@ -22,7 +22,7 @@ public class OpenOfficeUtil {
 
     public void runOpenOffice () throws IOException, InterruptedException {
         if (!isProcessRunning(openOfficeProcessName)) {
-            cmd.execCommand(runOpenOfficeCommand);
+            execCommand(runOpenOfficeCommand);
         }
     }
 
@@ -40,5 +40,9 @@ public class OpenOfficeUtil {
         scanner.close();
 
         return string;
+    }
+
+    private void execCommand(String cmdCommand) {
+        cmd.execCommand(cmdCommand);
     }
 }

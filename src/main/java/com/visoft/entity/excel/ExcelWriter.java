@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExcelWriter {
-    public void writeToFile(Workbook workbook, File file) throws IOException {
+    public void writeToFile(final Workbook workbook, File file) throws IOException {
         FileOutputStream outputExcelFile;
         outputExcelFile = new FileOutputStream(new File(file.getPath()));
         workbook.write(outputExcelFile);

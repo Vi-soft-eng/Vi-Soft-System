@@ -25,13 +25,6 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>local-maven-repo</id>-->
-            <!--<url>file:///>${project.basedir}/lib</url>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,6 +44,34 @@
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
+        <!-- Spring data JPA, default tomcat pool, exclude it -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Oracle JDBC driver -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.1</version>
+        </dependency>
+        <!-- HikariCP connection pool -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>3.6.3.Final</version>-->
+        <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -159,7 +180,8 @@
             <artifactId>spring-boot-dependencies</artifactId>
             <version>1.5.3.RELEASE</version>
             <type>pom</type>
-            <scope>import</scope>
+            <!--<scope>import</scope>-->
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -176,6 +198,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
         </plugins>
 
         <resources>
@@ -190,5 +216,25 @@
 
         <finalName>visoftsystem</finalName>
     </build>
+
+    <!--The profiles located in the ~/.m2/settings.xml file-->
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>PRODUCTION</id>-->
+            <!--<properties>-->
+                <!--<db.url>url</db.url>-->
+                <!--<db.username>username</db.username>-->
+                <!--<db.password>password</db.password>-->
+            <!--</properties>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>DEV</id>-->
+            <!--<properties>-->
+                <!--<db.url>url</db.url>-->
+                <!--<db.username>username</db.username>-->
+                <!--<db.password>password</db.password>-->
+            <!--</properties>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 
 </project>
