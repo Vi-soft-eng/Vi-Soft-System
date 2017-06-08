@@ -1,6 +1,7 @@
 ## Dependencies
 
 mvn install:install-file -Dfile=ojdbc7.jar  -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
+
 mvn install:install-file -Dfile=jodconverter-2.2.2.jar  -DgroupId=com.artofsolving -DartifactId=jodconverter-2.2.2 -Dversion=2.2.2 -Dpackaging=jar
 
 1) Library: jodconverter-2.2.2.jar
