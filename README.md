@@ -1,18 +1,19 @@
 ## Dependencies
 
 mvn install:install-file -Dfile=ojdbc7.jar  -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
+mvn install:install-file -Dfile=jodconverter-2.2.2.jar  -DgroupId=com.artofsolving -DartifactId=jodconverter-2.2.2 -Dversion=2.2.2 -Dpackaging=jar
 
 1) Library: jodconverter-2.2.2.jar
 You can find it in the project dir: lib/jodconverter-2.2.2.jar
 The jar has to be copied to the local maven repository ..\.m2\repository\com\artofsolving\jodconverter\2.2.2\
 
-2) Library: ojdbc6-11.2.0.jar
-You can find it in the project dir: lib/ojdbc6-11.2.0.jar
-The jar has to be copied to the local maven repository ..\.m2\repository\com\oracle\ojdbc6\11.2.0\ojdbc6-11.2.0.jar
+2) Library: ojdbc7-12.1.0.1.jar
+You can find it in the project dir: lib/ojdbc7-12.1.0.1.jar
+The jar has to be copied to the local maven repository ..\.m2\repository\com\oracle\ojdbc7\12.1.0.1\ojdbc7-12.1.0.1.jar
 
-3) OpenOfficePortable must be located there: C:\\OpenOfficePortable\\OpenOfficePortable.exe
+3) OpenOfficePortable must be located there: C:\\OpenOfficePortable\\App\\openoffice\\program\\
 You are allowed to install OpenOffice where you want. But remember to modify command
-(property: "open.office.run.headless.mode.command") to run OpenOfficePortable.exe
+(property: "open.office.run.headless.mode.command") to run soffice.exe
 in the project dir: src/main/resources/application.properties file.
 
 ## Information
@@ -66,3 +67,10 @@ http://localhost:8050/processExcelAddLogo (POST) -- gets JSON, modifies excel fi
 
     The modified file will be saved there C:\\FILES_DIR\\excel.xlsx
     It will insert logo image in the whole excel cell (I2).
+
+http://localhost:8050/processExcelChangeDirectionRightToLeft (POST) -- gets JSON, modifies excel file by changing view direction right to left.
+
+    Example: http://localhost:8050/processExcelChangeDirectionRightToLeft
+            {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":"C:\\FILES_DIR\\"}
+
+    The modified file will be saved there C:\\FILES_DIR\\excel.xlsx
