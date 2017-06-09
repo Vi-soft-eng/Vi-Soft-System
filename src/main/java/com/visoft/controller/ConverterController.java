@@ -1,9 +1,11 @@
 package com.visoft.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visoft.entity.JsonFileData;
 import com.visoft.exception.RestException;
 import com.visoft.entity.excel.ExcelProcessor;
 import com.visoft.entity.jod.converter.JodConverter;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,57 +34,34 @@ public class ConverterController extends ExceptionHandlerController  {
                     method = RequestMethod.POST,
                     produces = "application/pdf")
     public @ResponseBody ResponseEntity<byte[]> downloadPdf(
-            @RequestPart("fileName") String fileName,
-            @RequestPart(required = false) String mimeType,
+            @RequestPart("json") String jsonString,
             @RequestPart("file") MultipartFile multipartFile) throws RestException {
-
         byte [] outputByteArray = null;
+        JsonFileData json = null;
         if (!multipartFile.isEmpty()) {
             try {
-                byte[] bytes = multipartFile.getBytes();
-
-                // process excel file: fit data to one page
-                bytes = excelProcessor.processFileFitToOnePage(fileName, bytes);
-
-                outputByteArray = jodConverter.convertToPdf(fileName, mimeType, bytes);
+                byte[] bytes = null;
+                boolean isBase64 = Base64.isBase64(multipartFile.getBytes());
+                if (isBase64) {
+                    bytes = Base64.decodeBase64(multipartFile.getBytes());
+                } else {
+                    bytes = multipartFile.getBytes();
+                }
+                json = new ObjectMapper().readValue(jsonString, JsonFileData.class);
+                outputByteArray = jodConverter.convertToPdf(json.getFileName(), json.getMimeType(), bytes);
             } catch (Exception e) {
                 throw new RestException(e);
             }
         }
-
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", FilenameUtils.getBaseName(fileName) + ".pdf");
+        headers.setContentDispositionFormData("attachment", FilenameUtils.getBaseName(json.getFileName()) + ".pdf");
         headers.setContentType(MediaType.APPLICATION_PDF);
         return new ResponseEntity<>(outputByteArray, headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/convertExcelToPdf",
-                    method = RequestMethod.POST,
-                    produces = "application/pdf")
-    public @ResponseBody ResponseEntity<byte[]> downloadPdf(
-            @RequestPart("fileName") String fileName,
-            @RequestPart("mimeType") String mimeType,
-            @RequestPart("filePath") String filePath) throws RestException {
-        byte[] bytes = null;
-        if (filePath != null) {
-            try {
-                // process excel file: fit data to one page
-                bytes = excelProcessor.processFileFitToOnePage(new File(filePath));
-                bytes = jodConverter.convertToPdf(fileName, mimeType, bytes);
-            } catch (Exception e) {
-                throw new RestException(e);
-            }
-        }
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", FilenameUtils.getBaseName(fileName) + ".pdf");
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/convertExcelToPdf",
-            method = RequestMethod.POST)
-    public String convertExcelToPdfAndSavePdf(
-            @RequestBody JsonFileData json) throws RestException {
+                    method = RequestMethod.POST)
+    public String convertExcelToPdfAndSavePdf(@RequestBody JsonFileData json) throws RestException {
         byte[] bytes = null;
         if (json.getFilePath() != null) {
             try {
@@ -97,24 +76,4 @@ public class ConverterController extends ExceptionHandlerController  {
         return "File converted successfully";
     }
 
-    @RequestMapping(value = "/convertExcel2003ToExcel2007",
-            method = RequestMethod.POST,
-            produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    public @ResponseBody ResponseEntity<byte[]> downloadExcel(
-            @RequestPart("fileName") String fileName,
-            @RequestPart(required = false) String mimeType,
-            @RequestPart("filePath") String filePath) throws RestException {
-        byte[] bytes = null;
-        if (filePath != null) {
-            try {
-                bytes = excelProcessor.processFileFitToOnePage(new File(filePath));
-                bytes = jodConverter.convertXlsToXlsx(fileName, mimeType, bytes);
-            } catch (Exception e) {
-                throw new RestException(e);
-            }
-        }
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", FilenameUtils.getBaseName(fileName) + ".xlsx");
-        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
-    }
 }

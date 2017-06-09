@@ -6,10 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @Component
 public class ExcelReader {
@@ -30,6 +27,19 @@ public class ExcelReader {
             LOG.error("Error: can not read EXCEL file: " + ex.getMessage());
         } catch (Exception ex) {
             LOG.error("Error: can not read EXCEL file: " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public Workbook readExcelFile(byte [] bytes) {
+        try (InputStream inputStream =  new ByteArrayInputStream(bytes); ) {
+            // Get the workbook instance for XLSX file
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            return workbook;
+        } catch (IOException ex) {
+            LOG.error("Error: can not convert bytes to EXCEL: " + ex.getMessage());
+        } catch (Exception ex) {
+            LOG.error("Error: can not convert bytes to EXCEL: " + ex.getMessage());
         }
         return null;
     }

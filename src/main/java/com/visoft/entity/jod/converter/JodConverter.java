@@ -24,27 +24,14 @@ public class JodConverter {
     OpenOfficeUtil openOfficeUtil;
 
     public byte[] convertToPdf(String inputFileName, String mimeType, byte[] inputByteArray) throws Exception {
-
         openOfficeUtil.runOpenOffice();
-
         String outputFileName = FilenameUtils.getBaseName(inputFileName) + ".pdf";
         String outputMimeType = "application/pdf";
-
-        return convert(inputFileName, inputByteArray, outputFileName);
-    }
-
-    public byte[] convertXlsToXlsx(String inputFileName, String mimeType, byte[] inputByteArray) throws Exception {
-
-        String outputFileName = FilenameUtils.getBaseName(inputFileName) + ".xlsx";
-        String outputMimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
         return convert(inputFileName, inputByteArray, outputFileName);
     }
 
     private byte[] convert(String inputFileName, byte[] input, String outputFileName) throws Exception {
-
         openOfficeUtil.runOpenOffice();
-
         DocumentFormat inputFormat =
                 documentFormatRegistry.getFormatByFileExtension(FilenameUtils.getExtension(inputFileName));
         DocumentFormat outputFormat =
@@ -59,7 +46,6 @@ public class JodConverter {
             // Create InputStream and ByteArrayOutputStream
             InputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(input));
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
             // Connect to an OpenOffice.org instance running on port 8100
             OpenOfficeConnection connection = new SocketOpenOfficeConnection(8100);
             connection.connect();
@@ -67,9 +53,7 @@ public class JodConverter {
             DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
             converter.convert(inputStream, inputFormat, outputStream, outputFormat);
             connection.disconnect();
-
             return outputStream.toByteArray();
-
         } catch (ConnectException e) {
             LOG.error("Connection not available: " + e.getMessage());
         } catch (IOException e) {
@@ -82,9 +66,7 @@ public class JodConverter {
     }
 
     public void convertToPdfAndSave(File input, String outputFileName) throws Exception {
-
         openOfficeUtil.runOpenOffice();
-
         try {
             LOG.info("Conversion started!");
             File inputFile = input;
@@ -104,6 +86,5 @@ public class JodConverter {
             LOG.error("Error: " + e.getMessage(), e);
             throw new Exception(e.getMessage());
         }
-
     }
 }
