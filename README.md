@@ -81,18 +81,18 @@ http://localhost:8050/processExcel/uploadFile/fitToOnePage (POST) -- gets JSON a
     Example: http://localhost:8050/processExcel/uploadFile/fitToOnePage
             {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":""}
             binary file: BLOB
-    The modified file and returns in a http response.
+    The app returns a modified file in a http response.
     
 http://localhost:8050/processExcel/uploadFile/addLogo (POST) -- gets JSON and binary file, modifies excel file by adding image in the cell.
 
     Example: http://localhost:8050/processExcel/uploadFile/addLogo
             {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":""}
             binary file: BLOB
-    The modified file and returns in a http response.
+    The app returns a modified file in a http response.
 
 http://localhost:8050/processExcel/uploadFile/changeDirectionRightToLeft (POST) -- gets JSON and binary file, modifies excel file by changing view direction right to left.
 
     Example: http://localhost:8050/processExcel/uploadFile/changeDirectionRightToLeft
             {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":""}
             binary file: BLOB
-    The modified file and returns in a http response.
+    The app returns a modified file in a http response.
