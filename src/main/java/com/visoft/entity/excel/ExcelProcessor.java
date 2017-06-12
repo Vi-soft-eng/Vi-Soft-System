@@ -86,13 +86,13 @@ public class ExcelProcessor {
         return wb;
     }
 
-    public byte [] processFileAddLogo(String fileName, byte [] bytes, Integer logoRow, Integer logoCell, String logoPath) {
+    public byte [] processFileAddLogo(String fileName, byte [] bytes, Integer logoRow, Integer logoCell, Integer logoRow2, Integer logoCell2, String logoPath) {
         try {
             try {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 // process
                 Workbook workbook = excelReader.readExcelFile(bytes);
-                workbook = addLogo(workbook, logoRow, logoCell, logoPath);
+                workbook = addLogoToRangeCells(workbook, logoRow, logoCell, logoRow2, logoCell2, logoPath);
                 workbook.write(outputStream);
 
                 return outputStream.toByteArray();
@@ -108,7 +108,7 @@ public class ExcelProcessor {
     }
 
 
-    public byte [] processFileAddLogo(File file, Integer logoRow, Integer logoCell, String logoPath) {
+    public byte [] processFileAddLogo(File file, Integer logoRow, Integer logoCell, Integer logoRow2, Integer logoCell2, String logoPath) {
         File outputFile = null;
         try {
             outputFile = File.createTempFile("document", "." + FilenameUtils.getExtension(file.getCanonicalPath()));
@@ -123,7 +123,7 @@ public class ExcelProcessor {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 // process
                 Workbook workbook = excelReader.readExcelFile(outputFile);
-                workbook = addLogo(workbook, logoRow, logoCell, logoPath);
+                workbook = addLogoToRangeCells(workbook, logoRow, logoCell, logoRow2, logoCell2, logoPath);
                 excelWriter.writeToFile(workbook, file);
                 workbook.write(outputStream);
                 return outputStream.toByteArray();
@@ -142,12 +142,12 @@ public class ExcelProcessor {
         return null;
     }
 
-    private Workbook addLogo(final Workbook workbook, Integer startRow, Integer startCol, String imgPath) throws IOException {
+    private Workbook addLogoToRangeCells(final Workbook workbook, Integer startRow1, Integer startCol1, Integer startRow2, Integer startCol2, String imgPath) throws IOException {
         Workbook wb = workbook;
-        Sheet sheet = wb.getSheetAt(wb.getNumberOfSheets()-1);
+        Sheet sheet = wb.getSheetAt(0);
         InputStream inputStream = new FileInputStream(imgPath);
         byte[] bytes = IOUtils.toByteArray(inputStream);
-        int picIndex = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+        int picIndex = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
         inputStream.close();
         //Returns an object that handles instantiating concrete classes
         CreationHelper helper = wb.getCreationHelper();
@@ -156,10 +156,10 @@ public class ExcelProcessor {
         //Create an anchor that is attached to the worksheet
         ClientAnchor anchor = helper.createClientAnchor();
         //Locate picture on whole cell
-        anchor.setCol1(startCol);
-        anchor.setRow1(startRow);
-        anchor.setCol2(startCol + 1);
-        anchor.setRow2(startRow + 1);
+        anchor.setCol1(startCol1);
+        anchor.setRow1(startRow1);
+        anchor.setCol2(startCol2);
+        anchor.setRow2(startRow2);
         anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
         Picture picture = drawing.createPicture(anchor, picIndex);
         //picture.resize(width, height);
