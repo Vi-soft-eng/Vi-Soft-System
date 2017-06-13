@@ -64,7 +64,7 @@ http://localhost:8050/processExcel/changeFile/fitToOnePage (POST) -- gets JSON, 
 http://localhost:8050/processExcel/changeFile/addLogo (POST) -- gets JSON, modifies excel file by adding image in the cell.
 
     Example: http://localhost:8050/processExcelAddLogo
-         body: {"excelFilePath":"C:\\FILES_DIR\\excel.xlsx","logoPath":"C:\\LOGO3EXCEL\\logo.png","logoRow":"1","logoCell":"8"}';
+         body: {"excelFilePath":"C:\\FILES_DIR\\excel.xlsx","logoPath":"C:\\LOGO3EXCEL\\logo.png","logoRow":"1","logoCell":"8","logoRow2":"2","logoCell2":"9"}';
 
     The modified file will be saved there C:\\FILES_DIR\\excel.xlsx
     It will insert logo image in the whole excel cell (I2).
@@ -86,7 +86,7 @@ http://localhost:8050/processExcel/uploadFile/fitToOnePage (POST) -- gets JSON a
 http://localhost:8050/processExcel/uploadFile/addLogo (POST) -- gets JSON and binary file, modifies excel file by adding image in the cell.
 
     Example: http://localhost:8050/processExcel/uploadFile/addLogo
-            {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":""}
+         {"excelFilePath":"C:\\FILES_DIR\\excel.xlsx","logoPath":"C:\\LOGO3EXCEL\\logo.png","logoRow":"1","logoCell":"8","logoRow2":"2","logoCell2":"9"}';
             binary file: BLOB
     The app returns a modified file in a http response.
 

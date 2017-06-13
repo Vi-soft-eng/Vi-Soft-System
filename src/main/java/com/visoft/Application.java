@@ -21,7 +21,7 @@ public class Application extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-//        Locale.setDefault(Locale.UK);
+        Locale.setDefault(Locale.UK);
         SpringApplication.run(Application.class, args);
     }
 
