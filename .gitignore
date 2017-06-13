@@ -4,7 +4,6 @@ LICENSE.txt
 mvnw
 mvnw.cmd
 logs/
-*.sql
 ### STS ###
 .apt_generated
 .classpath
