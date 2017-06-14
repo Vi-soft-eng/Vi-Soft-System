@@ -81,8 +81,8 @@ public class ExcelProcessor {
         Sheet firstSheet = wb.getSheetAt(0);
         firstSheet.setFitToPage(true);
         PrintSetup printSetup = firstSheet.getPrintSetup();
-        printSetup.setFitWidth((short) 1);
-        printSetup.setFitHeight((short) 0);
+        printSetup.setFitWidth((short) 1);                               // 1 - fit all columns to one page
+        printSetup.setFitHeight((short) 0);                              // 1 - fit all rows to one page
         return wb;
     }
 
