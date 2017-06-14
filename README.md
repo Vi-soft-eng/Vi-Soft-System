@@ -21,7 +21,7 @@ in the project dir: src/main/resources/application.properties file.
 The spring boot application is configured to the port 8050 (src/main/resources/application.properties)
 
 #### Production mode
-Build project with maven and deploy war archive to Tomcat server.
+Build project with maven and deploy war archive to Tomcat server (C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps).
 
 #### Development mode
 Run spring-boot:run maven plugin.

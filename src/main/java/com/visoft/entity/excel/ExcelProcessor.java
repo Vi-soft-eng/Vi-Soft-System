@@ -82,7 +82,7 @@ public class ExcelProcessor {
         firstSheet.setFitToPage(true);
         PrintSetup printSetup = firstSheet.getPrintSetup();
         printSetup.setFitWidth((short) 1);
-        printSetup.setFitHeight((short) 1);
+        printSetup.setFitHeight((short) 0);
         return wb;
     }
 
