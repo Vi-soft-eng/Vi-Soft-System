@@ -5,20 +5,20 @@ public class JsonLogoData {
     String excelFilePath;
     String logoPath;
     Integer logoRow;
-    Integer logoCell;
+    Integer logoCol;
     Integer logoRow2;
-    Integer logoCell2;
+    Integer logoCol2;
 
     public JsonLogoData() {
     }
 
-    public JsonLogoData(String excelFilePath, String logoPath, Integer logoRow,  Integer logoCell, Integer logoRow2,  Integer logoCell2) {
+    public JsonLogoData(String excelFilePath, String logoPath, Integer logoRow,  Integer logoCol, Integer logoRow2,  Integer logoCol2) {
         this.excelFilePath = excelFilePath;
         this.logoPath = logoPath;
         this.logoRow = logoRow;
-        this.logoCell = logoCell;
+        this.logoCol = logoCol;
         this.logoRow2 = logoRow2;
-        this.logoCell2 = logoCell2;
+        this.logoCol2 = logoCol2;
     }
 
     public String getExcelFilePath() {
@@ -45,12 +45,12 @@ public class JsonLogoData {
         this.logoRow = logoRow;
     }
 
-    public Integer getLogoCell() {
-        return logoCell;
+    public Integer getLogoCol() {
+        return logoCol;
     }
 
-    public void setLogoCell(Integer logoCell) {
-        this.logoCell = logoCell;
+    public void setLogoCol(Integer logoCol) {
+        this.logoCol = logoCol;
     }
 
     public Integer getLogoRow2() {
@@ -61,11 +61,11 @@ public class JsonLogoData {
         this.logoRow2 = logoRow2;
     }
 
-    public Integer getLogoCell2() {
-        return logoCell2;
+    public Integer getLogoCol2() {
+        return logoCol2;
     }
 
-    public void setLogoCell2(Integer logoCell2) {
-        this.logoCell2 = logoCell2;
+    public void setLogoCol2(Integer logoCell2) {
+        this.logoCol2 = logoCell2;
     }
 }

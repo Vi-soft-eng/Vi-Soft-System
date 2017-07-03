@@ -92,9 +92,9 @@ public class ExcelProcessorController extends ExceptionHandlerController  {
                         FilenameUtils.getName(json.getExcelFilePath()),
                         bytes,
                         json.getLogoRow(),
-                        json.getLogoCell(),
+                        json.getLogoCol(),
                         json.getLogoRow2(),
-                        json.getLogoCell2(),
+                        json.getLogoCol2(),
                         json.getLogoPath());
             } catch (Exception e) {
                 throw new RestException(e);
@@ -116,9 +116,9 @@ public class ExcelProcessorController extends ExceptionHandlerController  {
                 bytes = excelProcessor.processFileAddLogo(
                         new File(json.getExcelFilePath()),
                         json.getLogoRow(),
-                        json.getLogoCell(),
+                        json.getLogoCol(),
                         json.getLogoRow2(),
-                        json.getLogoCell2(),
+                        json.getLogoCol2(),
                         json.getLogoPath());
             } catch (Exception e) {
                 throw new RestException(e);
