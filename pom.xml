@@ -226,7 +226,7 @@
     <!--The profiles located in the ~/.m2/settings.xml file-->
     <!--<profiles>-->
         <!--<profile>-->
-            <!--<id>PRODUCTION</id>-->
+            <!--<id>visoft.prod</id>-->
             <!--<properties>-->
                 <!--<db.url>url</db.url>-->
                 <!--<db.username>username</db.username>-->
@@ -234,7 +234,7 @@
             <!--</properties>-->
         <!--</profile>-->
         <!--<profile>-->
-            <!--<id>DEV</id>-->
+            <!--<id>visoft.dev</id>-->
             <!--<properties>-->
                 <!--<db.url>url</db.url>-->
                 <!--<db.username>username</db.username>-->
@@ -242,5 +242,20 @@
             <!--</properties>-->
         <!--</profile>-->
     <!--</profiles>-->
+
+    <profiles>
+        <profile>
+            <id>visoft.prod</id>
+            <properties>
+                <active.profile>prod</active.profile>
+            </properties>
+        </profile>
+        <profile>
+            <id>visoft.dev</id>
+            <properties>
+                <active.profile>dev</active.profile>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

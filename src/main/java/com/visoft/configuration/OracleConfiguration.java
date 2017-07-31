@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 @Configuration
 @ConfigurationProperties("oracle")
-@Profile("prod")
+@Profile({"prod", "dev"})
 public class OracleConfiguration {
     @NotNull
     private String username;
