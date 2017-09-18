@@ -53,13 +53,61 @@ public class ExcelProcessorController extends ExceptionHandlerController  {
     }
 
     @RequestMapping(value = "/changeFile/fitToOnePage",
-                    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     public String fitToOnePage(@RequestBody JsonFileData json) throws RestException {
         byte[] bytes = null;
         if (json.getFilePath() != null) {
             try {
                 // process excel file: fit data to one page
                 bytes = excelProcessor.processFileFitToOnePage(new File(json.getFilePath() + json.getFileName()));
+            } catch (Exception e) {
+                throw new RestException(e);
+            }
+        }
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        return "File processed successfully";
+    }
+
+    @RequestMapping(value = "/uploadFile/fitToOnePageByColumnsAndRows",
+            method = RequestMethod.POST,
+            produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    public @ResponseBody ResponseEntity<byte []> fitToOnePageByColumnsAndRows (
+            @RequestParam(value = "json") String jsonString,
+            @RequestPart(value = "file") MultipartFile multipartFile) throws RestException {
+        byte[] outputByteArray = null;
+
+        JsonFileData json = null;
+        if (!multipartFile.isEmpty()) {
+            try {
+                byte[] bytes;
+                boolean isBase64 = Base64.isBase64(multipartFile.getBytes());
+                if (isBase64) {
+                    bytes = Base64.decodeBase64(multipartFile.getBytes());
+                } else {
+                    bytes = multipartFile.getBytes();
+                }
+                json = new ObjectMapper().readValue(jsonString, JsonFileData.class);
+                // process excel file: fit data to one page
+                outputByteArray = excelProcessor.processFileFitToOnePageByColumnsAndRows(json.getFileName(), bytes);
+            } catch (Exception e) {
+                throw new RestException(e);
+            }
+        }
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", json.getFileName());
+        headers.setContentLength(outputByteArray.length);
+        return new ResponseEntity<>(outputByteArray, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/changeFile/fitToOnePageByColumnsAndRows",
+            method = RequestMethod.POST)
+    public String fitToOnePageByColumnsAndRows(@RequestBody JsonFileData json) throws RestException {
+        byte[] bytes = null;
+        if (json.getFilePath() != null) {
+            try {
+                // process excel file: fit data to one page
+                bytes = excelProcessor.processFileFitToOnePageByColumnsAndRows(new File(json.getFilePath() + json.getFileName()));
             } catch (Exception e) {
                 throw new RestException(e);
             }

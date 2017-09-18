@@ -28,7 +28,7 @@ public class ExcelProcessor {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 // process
                 Workbook workbook = excelReader.readExcelFile(bytes);
-                workbook = fitFirstSheetToOnePage(workbook);
+                workbook = fitFirstSheetToOnePage(workbook, true, false);
                 workbook.write(outputStream);
                 return outputStream.toByteArray();
             } catch (IOException ex) {
@@ -57,7 +57,7 @@ public class ExcelProcessor {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 // process
                 Workbook workbook = excelReader.readExcelFile(outputFile);
-                workbook = fitFirstSheetToOnePage(workbook);
+                workbook = fitFirstSheetToOnePage(workbook, true, false);
                 excelWriter.writeToFile(workbook, file);
                 workbook.write(outputStream);
                 return outputStream.toByteArray();
@@ -76,13 +76,50 @@ public class ExcelProcessor {
         return null;
     }
 
-    private Workbook fitFirstSheetToOnePage(final Workbook workbook) {
+
+    public byte [] processFileFitToOnePageByColumnsAndRows(String fileName, byte [] bytes) {
+        try {
+            try {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // process
+                Workbook workbook = excelReader.readExcelFile(bytes);
+                workbook = fitFirstSheetToOnePage(workbook, true, true);
+                workbook.write(outputStream);
+                return outputStream.toByteArray();
+            } catch (IOException ex) {
+                throw new IOException();
+            } catch (Exception ex) {
+                throw new IOException();
+            }
+        } catch (IOException ex) {
+            LOG.error("Error: can not modify " + fileName + ": " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public byte [] processFileFitToOnePageByColumnsAndRows(File file) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            // process
+            Workbook workbook = excelReader.readExcelFile(file);
+            workbook = fitFirstSheetToOnePage(workbook, true, true);
+            workbook.write(outputStream);
+            return outputStream.toByteArray();
+        } catch (IOException ex) {
+            LOG.error("Error : " + ex.getMessage());
+        } catch (Exception ex) {
+            LOG.error("Error : " + ex.getMessage());
+        }
+        return null;
+    }
+
+    private Workbook fitFirstSheetToOnePage(final Workbook workbook, boolean isFittedByColumns, boolean isFittedByRows) {
         Workbook wb = workbook;
         Sheet firstSheet = wb.getSheetAt(0);
         firstSheet.setFitToPage(true);
         PrintSetup printSetup = firstSheet.getPrintSetup();
-        printSetup.setFitWidth((short) 1);                               // 1 - fit all columns to one page
-        printSetup.setFitHeight((short) 0);                              // 1 - fit all rows to one page
+        printSetup.setFitWidth(isFittedByColumns ? (short) 1 : (short) 0);                  // 1 - fit all columns to one page
+        printSetup.setFitHeight(isFittedByRows ? (short) 1 : (short) 0);                    // 1 - fit all rows to one page
         return wb;
     }
 

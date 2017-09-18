@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 
-
 @RestController
 public class FilesController extends ExceptionHandlerController{
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -33,8 +32,5 @@ public class FilesController extends ExceptionHandlerController{
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
         return "Directory moved successfully";
-
     }
-
-
 }

@@ -29,7 +29,4 @@ public class JsonFileData {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-
-
-
 }

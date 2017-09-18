@@ -179,6 +179,11 @@
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version> <!-- makesure correct version here -->
+        </dependency>
 
         <dependency>
             <!-- Import dependency management from Spring Boot -->
@@ -196,6 +201,34 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Google Drive API -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v3-rev79-1.22.0</version>
+        </dependency>
+
+        <!-- JSTL for JSP -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -216,6 +249,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
+                    <include>**/*.json</include>
                 </includes>
             </resource>
         </resources>
@@ -231,15 +265,25 @@
                 <!--<db.url>url</db.url>-->
                 <!--<db.username>username</db.username>-->
                 <!--<db.password>password</db.password>-->
+                <!--<google.drive.default.folder.id>0ByhpGRYBsxtCYWhDb3IwZ016aTA</google.drive.default.folder.id>-->
+                <!--<google.drive.service.account.user>yugandocumentation@gmail.com</google.drive.service.account.user>-->
+                <!--<google.api.client.id>client_id</google.api.client.id>-->
+                <!--<google.api.secret>secret</google.api.secret>-->
+                <!--<google.api.callback.uri>http://localhost:8050/visoftsystem/googleAuth/OAuth2v1/</google.api.callback.uri>-->
             <!--</properties>-->
         <!--</profile>-->
         <!--<profile>-->
             <!--<id>visoft.dev</id>-->
             <!--<properties>-->
-                <!--<db.url>url</db.url>-->
-                <!--<db.username>username</db.username>-->
-                <!--<db.password>password</db.password>-->
-            <!--</properties>-->
+                    <!--<db.url>url</db.url>-->
+                    <!--<db.username>username</db.username>-->
+                    <!--<db.password>password</db.password>-->
+                    <!--<google.drive.default.folder.id>0ByhpGRYBsxtCYWhDb3IwZ016aTA</google.drive.default.folder.id>-->
+                    <!--<google.drive.service.account.user>yugandocumentation@gmail.com</google.drive.service.account.user>-->
+                    <!--<google.api.client.id>client_id</google.api.client.id>-->
+                    <!--<google.api.secret>secret</google.api.secret>-->
+                    <!--<google.api.callback.uri>http://localhost:8050/googleAuth/OAuth2v1/</google.api.callback.uri>-->
+                <!--</properties>-->
         <!--</profile>-->
     <!--</profiles>-->
 
