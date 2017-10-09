@@ -89,19 +89,6 @@ public class GoogleDriveService {
      */
     private Credential authorize() throws IOException {
         // Load client secrets.
-//        InputStream in =
-//                GoogleDriveService.class.getResourceAsStream("/client_secret.json");
-//        GoogleClientSecrets clientSecrets =
-//                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-//        GoogleAuthorizationCodeFlow flow =
-//                new GoogleAuthorizationCodeFlow.Builder(
-//                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-//                        .setDataStoreFactory(DATA_STORE_FACTORY)
-//                        .setAccessType("offline")
-//                        .build();
-
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPES)

@@ -17,6 +17,38 @@ You are allowed to install OpenOffice where you want. But remember to modify com
 (property: "open.office.run.headless.mode.command") to run soffice.exe
 in the project dir: src/main/resources/application.properties file.
 
+4) The pom.xml file uses profiles configured in settings.xml that is located in .m2 folder.
+```xml
+<profiles>
+    <profile>
+        <id>visoft.prod</id>
+        <properties>
+            <db.url>url</db.url>
+            <db.username>username</db.username>
+            <db.password>password</db.password>
+            <google.drive.default.folder.id>folder_id</google.drive.default.folder.id>
+            <google.drive.service.account.user>service_account_user</google.drive.service.account.user>
+            <google.api.client.id>client_id</google.api.client.id>
+            <google.api.secret>secret</google.api.secret>
+            <google.api.callback.uri>http://localhost:8050/visoftsystem/googleAuth/OAuth2v1/</google.api.callback.uri>
+        </properties>
+    </profile>
+    <profile>
+        <id>visoft.dev</id>
+        <properties>
+                <db.url>url</db.url>
+                <db.username>username</db.username>
+                <db.password>password</db.password>
+                <google.drive.default.folder.id>folder_id</google.drive.default.folder.id>
+                <google.drive.service.account.user>service_account_user</google.drive.service.account.user>
+                <google.api.client.id>client_id</google.api.client.id>
+                <google.api.secret>secret</google.api.secret>
+                <google.api.callback.uri>http://localhost:8050/googleAuth/OAuth2v1/</google.api.callback.uri>
+            </properties>
+    </profile>
+</profiles>
+```
+ 
 ## Information
 The spring boot application is configured to the port 8050 (src/main/resources/application.properties)
 
@@ -96,3 +128,21 @@ http://localhost:8050/processExcel/uploadFile/changeDirectionRightToLeft (POST) 
             {"fileName":"excel.xlsx", "mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","filePath":""}
             binary file: BLOB
     The app returns a modified file in a http response.
+
+### Google API
+
+To work with Google API is necessary to have prepared settings in Google APIs console.
+The visoftsystem web application uses OAuth2 authentication and requires getting following properties:   
+   - google.drive.default.folder.id - internal google folder id
+   - google.drive.service.account.user - google service account
+   - google.api.client.id -  OAuth 2.0 client id
+   - google.api.secret - OAuth 2.0 secret
+   - google.api.callback.uri - call back url (do not change this property)
+
+#### How to configure visoftsystem web application Google API to use particular Google Account and work with its Drive
+
+1) Open: http://localhost:8050/googleAuth/getUrlToAuth
+2) Click on button 'Login with Google'
+3) Chose or login with appropriate Google Account 
+4) Allow access to manage Google Drive
+5) You will be redirected to (google.api.callback.uri) http://localhost:8050/googleAuth/OAuth2v1/ to get authenticated user info

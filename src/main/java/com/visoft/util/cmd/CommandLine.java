@@ -18,6 +18,7 @@ public class CommandLine {
         try {
             LOG.info("Executing cmd command: " + command);
             Process process = Runtime.getRuntime().exec(command);
+            // the thread will wait until the process be finished or stopped manually
             status = process.waitFor();
             result = IOUtils.toString(process.getErrorStream(), "utf-8");
         } catch (InterruptedException ex) {
@@ -27,6 +28,21 @@ public class CommandLine {
         }
         if (status != 0) {
             throw new RuntimeException("Execution failed with status code: " + status + ". Command executed: " + command + " and result: " + result);
+        }
+        LOG.info("The CMD command: " + command + " was terminated successfully.");
+    }
+
+    public void runApplicationCommand(String command) {
+        boolean isAlive;
+        try {
+            LOG.info("Executing cmd command: " + command);
+            Process process = Runtime.getRuntime().exec(command);
+            isAlive = process.isAlive();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not execute: " + command, e);
+        }
+        if (!isAlive) {
+            throw new RuntimeException("Execution finished but needed process is not alive. Command executed: " + command);
         }
         LOG.info("The CMD command: " + command + " was terminated successfully.");
     }

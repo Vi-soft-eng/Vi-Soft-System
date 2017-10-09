@@ -20,17 +20,19 @@ public class OpenOfficeUtil {
     @Value("${open.office.process.name}")
     private String openOfficeProcessName;
 
+    private final String TASK_LIST = "tasklist.exe";
+
     public void runOpenOffice () throws IOException, InterruptedException {
-        if (!isProcessRunning(openOfficeProcessName)) {
-            execCommand(runOpenOfficeCommand);
+        if (!isOpenOfficeRunning()) {
+            runApplication(runOpenOfficeCommand);
         }
     }
 
-    private boolean isProcessRunning (String processName) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("tasklist.exe");
+    public boolean isOpenOfficeRunning() throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder(TASK_LIST);
         Process process = processBuilder.start();
         String tasksList = toString(process.getInputStream());
-        return tasksList.contains(processName);
+        return tasksList.contains(openOfficeProcessName);
     }
 
     private String toString (InputStream inputStream) {
@@ -40,7 +42,7 @@ public class OpenOfficeUtil {
         return string;
     }
 
-    private void execCommand(String cmdCommand) {
-        cmd.execCommand(cmdCommand);
+    private void runApplication(String cmdCommand) {
+        cmd.runApplicationCommand(cmdCommand);
     }
 }
